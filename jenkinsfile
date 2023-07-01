@@ -1,35 +1,71 @@
 pipeline {
-    agent any   
+    agent any
 
     tools {
         nodejs 'nodejs'
+        dockerTool 'docker'
     }
 
-       stages {
+    environment {
+        imageName = "myapp"
+        registryCredentials = "Nexus"
+        registry = "172.18.0.3:8085"
+        dockerImage = ''
+    }
+
+    stages {
         stage('Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/Ahmedjomaa55/Documentation.git'
             }
         }
-         
-        stage('Build') {
+
+        stage('install dependency') {
             steps {
                 sh 'npm install'
             }
-        } 
+        }
 
-      stage('Quality Gate') {
+        stage('Build') {
             steps {
-                waitForQualityGate abortPipeline: true
+                sh 'npm run build'
+            }
+        }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                sh 'echo build'
+                // withSonarQubeEnv('scanner') {
+                //     sh 'sonar-scanner'
+                // }
             }
         }
 
-        stage('npm run build') {
+        stage('Quality Gate') {
             steps {
-                nodejs('nodejs')
-                npm 'echo run build'
+                sh 'echo build'
+                // timeout(time: 5, unit: 'MINUTES') {
+                //     waitForQualityGate abortPipeline: true
+                // }
             }
         }
-       
+
+        stage('dockerize the app') {
+            steps {
+                // sh 'docker build -t doc:v1 .'
+                script {
+                    dockerImage = docker.build(imageName)
+                }
+            }
+        }
+
+        stage('Uploading to Nexus') {
+            steps {
+                    sh 'docker login 172.18.0.3:8085 -u admin -p admin'
+                    sh 'docker tag 293f70881acd 172.18.0.3:8085/sfeneriya:v1'
+                    sh 'docker push 172.18.0.3:8085/sfeneriya:v1'
+           
+            }
+        }
     }
-}   
+}
