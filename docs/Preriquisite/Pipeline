@@ -1,0 +1,19 @@
+# Pipeline Documentation
+
+## Stage View
+
+1. **Declarative: Tool Install**
+
+2. **Clone**
+
+3. **Install Dependency**
+
+4. **Build**
+
+5. **SonarQube**
+
+6. **Quality Gate**
+
+7. **Dockerize the App**
+
+8. **Uploading to Nexus**
