@@ -14,7 +14,21 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/jenkins:/var/jenkins_home
     restart: always
-
+    privileged: true  # Add this line to enable privileged mode
+    depends_on:
+      - docker
+  docker:
+    image: docker:dind
+    container_name: docker
+    privileged: true
+    networks:
+      devops:
+        ipv4_address: 172.18.0.9
+    volumes:
+      - /var/lib/docker
+    restart: always
+    environment:
+      - SONARQUBE_HOST=http://sonarqube:9000
   nexus:
     image: sonatype/nexus3:3.55.0
     container_name: nexus
