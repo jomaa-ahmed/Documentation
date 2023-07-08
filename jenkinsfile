@@ -40,6 +40,7 @@ pipeline {
                 } 
             }
             steps{
+                   // sh 'sonar-scanner   -Dsonar.projectKey=a   -Dsonar.sources=.   -Dsonar.host.url=http://172.18.0.4:9000   -Dsonar.token=sqp_1d1cf157fdec8dcc21e9aa8bbd243e66eb444f8a'
              
              sh '''
              
@@ -59,10 +60,10 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                sh 'echo build'
-                // timeout(time: 5, unit: 'MINUTES') {
+                 sh 'echo build'
+                 
                 //     waitForQualityGate abortPipeline: true
-                // }
+                 
             }
         }
 
@@ -83,5 +84,16 @@ pipeline {
            
             }
         }
+        
+        stage('pull from nexus' ) {
+            steps {
+                sh 'docker pull 172.18.0.3:8085/sfeneriya:v1'
+            }
+            
+        }   
+        
+    
+
+
     }
 }
