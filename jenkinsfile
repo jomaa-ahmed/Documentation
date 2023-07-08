@@ -90,10 +90,29 @@ pipeline {
                 sh 'docker pull 172.18.0.3:8085/sfeneriya:v1'
             }
             
-        }   
+        }
+  
+        stage('ansible') {
+            agent {
+             docker {
+                  image 'ansible/ansible:ubuntu1404'
+                  args '-v /var/run/docker.sock:/var/run/docker.sock --network documentation_devops'
+            }
+        }
         
-    
-
-
+        steps {
+           withCredentials([file(credentialsId: 'ansibleprivatekey', variable: 'PRIVATE_KEY_FILE')]) {
+             sh """
+        ansible-playbook \
+        --user=ubuntu \
+        --private-key=${PRIVATE_KEY_FILE} \
+        -i hosts \
+        docker.yml
+      """
+           }
+       }
+}
     }
 }
+
+
