@@ -1,19 +1,92 @@
-# Pipeline Documentation
+    # Pipeline Documentation
 
-## Stage View
+    ## Stage View
 
-1. **Declarative: Tool Install**
 
-2. **Clone**
 
-3. **Install Dependency**
+    1. **Clone**
 
-4. **Build**
+    stage('Clone') {
+        steps {
+            git branch: 'main', url: 'https://github.com/Ahmedjomaa55/Documentation.git'
+        }
+    }
 
-5. **SonarQube**
+    In this step, the project repository will be cloned from the remote repository to the local workspace. The repository for this example is located at https://github.com/Ahmedjomaa55/Documentation.git. The cloning process allows you to retrieve the latest version of the project source code for further processing in the pipeline.
 
-6. **Quality Gate**
 
-7. **Dockerize the App**
 
-8. **Uploading to Nexus**
+    2. **Install Dependency**
+
+    stage('Install Dependency') {
+        steps {
+            sh 'npm install'
+        }
+    }
+
+    This step installs the project dependencies using npm. It ensures that all required libraries, packages, and modules are available for building and running the application.
+
+    3. **Build**
+
+
+    stage('Build') {
+        steps {
+            sh 'npm run build'
+        }
+    }
+
+    This step is responsible for building the project. It executes the npm run build command, which triggers the build process specified in the project's configuration.
+
+    4. **SonarQube**
+
+
+
+    stage('SonarQube') {
+        agent { 
+            docker { 
+                image 'sonarsource/sonar-scanner-cli' 
+                args '-v /var/run/docker.sock:/var/run/docker.sock --network documentation_devops'
+            } 
+        }
+        steps {
+            sh '''
+            sonar-scanner \
+            -Dsonar.projectKey=a \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://sonarqube:9000 \
+            -Dsonar.login=admin \
+            -Dsonar.password=admin12
+            '''
+        }
+    }
+
+    The SonarQube step performs a static code analysis on the project using SonarScanner. SonarScanner is a command-line tool that integrates with SonarQube and analyzes the source code. It scans the project files, measures code quality, identifies issues, and provides detailed reports.
+
+    5. **Quality Gate**
+
+    -
+
+    6. **Dockerize the App**
+
+    stage('Dockerize the App') {
+        steps {
+            // sh 'docker build -t doc:v1 .'
+            script {
+                dockerImage = docker.build(imageName)
+            }
+        }
+    }
+
+    The purpose of the "Dockerize the App" stage is to create a Docker image of your application. This image allows you to package your application and its dependencies into a portable and reproducible format.
+
+    7. **Uploading to Nexus**
+
+    stage('Uploading to Nexus') {
+        steps {
+            sh 'docker login 172.18.0.3:8085 -u admin -p admin'
+            sh 'docker tag 293f70881acd 172.18.0.3:8085/sfeneriya:v1'
+            sh 'docker push 172.18.0.3:8085/sfeneriya:v1'
+        }
+    }
+
+    The purpose of the "Uploading to Nexus" stage is to push a Docker image to a Nexus repository. This allows you to store and manage your Docker images in a centralized repository.
