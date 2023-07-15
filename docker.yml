@@ -65,9 +65,11 @@
         enabled: yes
 
     - name: Log in to Docker registry
-      command: docker login reus.serveo.net -u admin -p admin
+      command: sudo docker login istud.serveo.net -u admin -p admin
 
 
     - name: Pull Docker image
-      command: docker pull reus.serveo.net/sfeneriya:v1
-    
+      command: sudo docker pull istud.serveo.net/sfeneriya:v1
+
+    - name: run Docker image
+      command: docker run -d -p 80:3000 istud.serveo.net/sfeneriya:v1
