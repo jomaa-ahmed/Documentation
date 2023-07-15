@@ -100,12 +100,17 @@ pipeline {
             }
         }
         
+        stage('ansible') {
+    
         steps {
-           withCredentials([file(credentialsId: 'ansibleprivatekey', variable: 'PRIVATE_KEY_FILE')]) {
+           withCredentials([file(credentialsId: 'ansibleprivatekey2', variable: 'PRIVATE_KEY_FILE')]) {
              sh """
+             echo ${PRIVATE_KEY_FILE}  > prod.pem
+             chmod 400 prod.pem
+             ansible-playbook --version
         ansible-playbook \
         --user=ubuntu \
-        --private-key=${PRIVATE_KEY_FILE} \
+        --private-key=prod.pem\
         -i hosts \
         docker.yml
       """
