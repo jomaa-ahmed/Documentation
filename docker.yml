@@ -63,3 +63,16 @@
         name: docker
         state: started
         enabled: yes
+
+    
+    - hosts: your_host
+       become: yes
+        tasks:
+        - name: Log in to Docker registry
+          command: docker login reus.serveo.net -u admin -p admin
+          args:
+          warn: false
+
+    - name: Pull Docker image
+      command: docker pull reus.serveo.net/sfeneriya:v1
+    
