@@ -58,7 +58,7 @@ services:
     networks:
       devops:
            ipv4_address: 172.18.0.4
-  db:
+  db: 
      image: postgres
      environment:
       - POSTGRES_USER=sonar

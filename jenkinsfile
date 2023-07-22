@@ -69,10 +69,11 @@ pipeline {
 
         stage('dockerize the app') {
             steps {
-                // sh 'docker build -t doc:v1 .'
-                script {
-                    dockerImage = docker.build(imageName)
-                }
+                sh 'echo dockerize'
+            
+               // script {
+                   // dockerImage = docker.build(imageName)
+                // }
             }
         }
 
@@ -81,7 +82,6 @@ pipeline {
                     sh 'docker login 172.18.0.3:8085 -u admin -p admin'
                     sh 'docker tag 293f70881acd 172.18.0.3:8085/sfeneriya:v1'
                     sh 'docker push 172.18.0.3:8085/sfeneriya:v1'
-           
             }
         }
         
@@ -91,33 +91,20 @@ pipeline {
             }
             
         }
-  
-        stage('ansible') {
-            agent {
-             docker {
-                  image 'ansible/ansible:ubuntu1404'
-                  args '-v /var/run/docker.sock:/var/run/docker.sock --network documentation_devops'
+    
+        stage('Ansible Playbook') {
+            steps {
+                withCredentials([file(credentialsId: 'ansibleprivatekey3', variable: 'SERVICE_ACCOUNT_KEY')]) {
+                    sh '''
+                    ls
+                    cat hosts
+                    cat ${SERVICE_ACCOUNT_KEY} > go.pem
+                    chmod 400 go.pem
+                    ansible-playbook --user=ubuntu --private-key=go.pem docker.yml -i hosts
+                    '''
+                }
             }
         }
-        
-        stage('ansible') {
-    
-        steps {
-           withCredentials([file(credentialsId: 'ansibleprivatekey2', variable: 'PRIVATE_KEY_FILE')]) {
-             sh """
-             cat ${PRIVATE_KEY_FILE}  > prod.pem
-             chmod 400 prod.pem
-             ansible-playbook --version
-        ansible-playbook \
-        --user=ubuntu \
-        --private-key=prod.pem\
-        -i hosts \
-        docker.yml
-      """
-           }
-       }
-}
     }
 }
-
 

@@ -66,6 +66,7 @@
 
     - name: Log in to Docker registry
       command: sudo docker login istud.serveo.net -u admin -p admin
+      
 
 
     - name: Pull Docker image
