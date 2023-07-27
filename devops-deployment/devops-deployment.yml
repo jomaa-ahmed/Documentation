@@ -3,7 +3,13 @@ kind: Deployment
 metadata:
   name: application
 spec:
-  replicas: 1
+  replicas: 3
+  revisionHistoryLimit: 20
+  strategy:
+    type : RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       app: application
