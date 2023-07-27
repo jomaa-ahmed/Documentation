@@ -1,47 +1,31 @@
----
-sidebar_position: 1
----
+In this course, we'll learn about the principles and practices of DevOps, with a focus on implementing Continuous Integration (CI) and Continuous Deployment (CD), gaining hands-on experience with popular DevOps tools and technologies, including Git, GitHub, Jenkins, Ansible, Docker, Kubernetes, and npm. In addition, we'll learn how to troubleshoot common issues that can arise during the CI/CD process, so that we can keep our projects running smoothly.
 
-# Tutorial Intro
+## Course Topics
 
-Let's discover **Docusaurus in less than 5 minutes**.
+1. **Introduction to DevOps:** We will learn what DevOps is, its principles, and why it's important in modern software development.
 
-## Getting Started
+### Continuous Integration (CI)
 
-Get started by **creating a new site**.
+2. **Clone:** Learn how to clone the source code repository using Git to get started with the CI process.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+3. **Install Dependency:** Understand how to manage project dependencies using npm to ensure a smooth build process.
 
-### What you'll need
+4. **Build:** Discover how to automate the build process using Jenkins, ensuring that the application is compiled and assembled correctly.
 
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+5. **SonarQube:** Learn how to integrate SonarQube for static code analysis to identify potential issues and improve code quality.
 
-## Generate a new site
+6. **Quality Gate:** Explore the concept of a Quality Gate, a set of conditions that must be met before the code can proceed to further stages in the CI pipeline.
 
-Generate a new Docusaurus site using the **classic template**.
+### Continuous Deployment (CD)
 
-The classic template will automatically be added to your project after you run the command:
+7. **Dockerize the App:** Discover how to containerize the application using Docker, making it portable and consistent across different environments.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+8. **Uploading to Nexus:** Learn how to upload the Docker image to Nexus repository for version control and distribution.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+9. **Pull from Nexus:** Understand how to pull the Docker image from Nexus for deployment on different servers.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+10. **Ansible Playbook:** Finally, explore how to use Ansible to automate the deployment and configuration of the application on target servers.
 
-## Start your site
+11. **Kubernetes with ArgoCD:** At the end of the course, we will dive into using Kubernetes for container orchestration and ArgoCD for continuous deployment, enabling automated and streamlined deployment of applications in Kubernetes clusters.
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Overall, we will learn how to build, test, and deploy modern software applications using DevOps principles and tools. We will also gain a solid understanding of the tools and technologies used in the DevOps process, which will help us to work more effectively in a modern software development team.
