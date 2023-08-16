@@ -1,3 +1,8 @@
+### Jenkins Declarative Pipeline for Angular Project
+
+Below is an example of a Jenkins Declarative Pipeline configuration that can be used to automate the build, test, and deployment process for an Angular project.
+
+```groovy
 pipeline {
     agent any
 
