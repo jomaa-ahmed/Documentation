@@ -1,5 +1,3 @@
-
-
 ## Install Dependency Stage
 
 The **Install Dependency** stage is responsible for installing project dependencies using npm.
