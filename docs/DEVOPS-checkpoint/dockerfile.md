@@ -1,4 +1,4 @@
-# Use an official Deno image as the base image
+# BUilding a docker image
 FROM hayd/deno:latest
 
 # Set the working directory inside the container
