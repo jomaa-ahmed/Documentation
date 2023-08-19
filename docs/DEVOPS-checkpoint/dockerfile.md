@@ -12,3 +12,14 @@ EXPOSE 8080
 
 # Run the Deno app when the container starts
 CMD ["run", "--allow-net", "app.ts"]
+
+
+# to build image :
+docker build -t deno-app .
+
+# login:
+docker login
+
+#docker push 
+docker push ahmed/deno-app
+
