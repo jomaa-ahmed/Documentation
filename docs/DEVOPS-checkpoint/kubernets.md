@@ -1,3 +1,4 @@
+# DOcker :
 FROM hayd/deno:latest
 
 WORKDIR /app
@@ -11,7 +12,7 @@ CMD ["run", "--allow-net", "app.ts"]
 
 
 
-kubernets :
+# kubernets :
 
 apiVersion: apps/v1
 kind: Deployment
